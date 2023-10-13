@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2kounrdyubwn"]
+
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_2bd2i"]
+[ext_resource type="Script" path="res://Scripts/Character.gd" id="1_mdrcg"]
+[ext_resource type="PackedScene" uid="uid://rurbiswhpyf6" path="res://Scenes/ui.tscn" id="2_hskcm"]
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("ui")]
+script = ExtResource("1_2bd2i")
+ui = NodePath("UI")
+
+[node name="Character" type="Node2D" parent="."]
+script = ExtResource("1_mdrcg")
+
+[node name="UI" parent="." node_paths=PackedStringArray("game", "character") instance=ExtResource("2_hskcm")]
+game = NodePath("..")
+character = NodePath("../Character")
+
+[connection signal="startTheGame" from="UI" to="." method="_on_ui_start_the_game"]
