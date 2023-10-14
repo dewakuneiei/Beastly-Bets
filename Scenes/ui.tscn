@@ -66,7 +66,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 46
-text = "Start"
+text = "Guess!"
 
 [node name="InputNode" parent="Control" instance=ExtResource("2_shqe5")]
 unique_name_in_owner = true
@@ -81,4 +81,55 @@ offset_top = -261.0
 offset_right = 388.0
 offset_bottom = 261.0
 
+[node name="outcome_l" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -196.5
+offset_top = -64.5
+offset_right = 196.5
+offset_bottom = 64.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 72
+text = "outcome"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="m_bet_l" type="Label" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(1, 0.435294, 0, 1)
+layout_mode = 0
+offset_left = 197.0
+offset_top = 413.0
+offset_right = 242.0
+offset_bottom = 452.0
+theme_override_font_sizes/font_size = 26
+text = "100"
+
+[node name="p_bet_l" type="Label" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(0.333333, 0.662745, 0.890196, 1)
+layout_mode = 0
+offset_left = 872.0
+offset_top = 492.0
+offset_right = 917.0
+offset_bottom = 531.0
+theme_override_font_sizes/font_size = 26
+text = "100"
+
+[node name="ShowOutcome" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Notifly" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="pressed" from="Control/MarginContainer/HBoxContainer/start_btn" to="." method="_on_start_btn_pressed"]
+[connection signal="timeout" from="ShowOutcome" to="." method="_on_show_outcome_timeout"]
+[connection signal="timeout" from="Notifly" to="." method="_on_notifly_timeout"]

@@ -8,7 +8,7 @@ class_name PlayerInput
 @onready var amount := %amount
 
 var maxBet : int = 100
-var minBet : int = 10
+var minBet : int = 1
 
 var game: Game
 var character: Character
@@ -26,15 +26,14 @@ var _bet_amount: int = 10:
 
 
 
-
-
 func _ready():
 	sight_l.text = str(_number_input)
 	amount.text = str(_bet_amount)
 
 func _process(delta):
-	if( character ):
-		maxBet = character.player_money
+	if( !character ):
+		printerr("something wrong with character")
+	maxBet = character.player_money
 
 
 func _reset_defualt():
@@ -64,7 +63,7 @@ func _on_right_pressed():
 func _on_plus_one_pressed():
 	if(_bet_amount + 1 > maxBet):
 		return
-	_bet_amount += 1
+	_bet_amount += minBet
 	
 
 func _on_plus_ten_pressed():
@@ -76,7 +75,7 @@ func _on_plus_ten_pressed():
 func _on_minus_one_pressed():
 	if(_bet_amount - 1 < minBet):
 		return
-	_bet_amount -= 1
+	_bet_amount -= minBet
 
 
 func _on_minus_ten_pressed():
