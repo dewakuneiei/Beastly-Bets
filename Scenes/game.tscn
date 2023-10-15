@@ -1,24 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2kounrdyubwn"]
+[gd_scene load_steps=6 format=3 uid="uid://c2kounrdyubwn"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_2bd2i"]
 [ext_resource type="Script" path="res://Scripts/Character.gd" id="1_mdrcg"]
-[ext_resource type="PackedScene" uid="uid://rurbiswhpyf6" path="res://Scenes/ui.tscn" id="2_hskcm"]
+[ext_resource type="PackedScene" uid="uid://djkdve5xpg3ws" path="res://Scenes/ui.tscn" id="2_hskcm"]
 [ext_resource type="PackedScene" uid="uid://dc7j6topy0fyi" path="res://Scenes/game_over_ui.tscn" id="4_msuya"]
+[ext_resource type="AudioStream" uid="uid://cg3hvk1x7fmbe" path="res://Assets/Sounds/Plastic_Dice_on_wooden_board_2_Dice_16.wav" id="5_7o1jp"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("ui", "gameover_ui", "character")]
 script = ExtResource("1_2bd2i")
-ui = NodePath("UI")
+ui = NodePath("GameUI")
 gameover_ui = NodePath("GameOverUI")
 character = NodePath("Character")
 
 [node name="Character" type="Node2D" parent="."]
 script = ExtResource("1_mdrcg")
 
-[node name="UI" parent="." node_paths=PackedStringArray("game", "character") instance=ExtResource("2_hskcm")]
+[node name="GameUI" parent="." node_paths=PackedStringArray("game", "character") instance=ExtResource("2_hskcm")]
 game = NodePath("..")
 character = NodePath("../Character")
 
 [node name="GameOverUI" parent="." instance=ExtResource("4_msuya")]
 
-[connection signal="outcomeTimeout" from="UI" to="." method="_on_ui_outcome_timeout"]
-[connection signal="startTheGame" from="UI" to="." method="_on_ui_start_the_game"]
+[node name="soundEffect" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_7o1jp")
+volume_db = -5.0
+
+[connection signal="outcomeTimeout" from="GameUI" to="." method="_on_ui_outcome_timeout"]
+[connection signal="startTheGame" from="GameUI" to="." method="_on_ui_start_the_game"]

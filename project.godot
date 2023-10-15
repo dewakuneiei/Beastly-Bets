@@ -14,3 +14,13 @@ config/name="Thai Jam"
 run/main_scene="res://Scenes/game.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+BgMusic="*res://Scenes/bg_music.tscn"
+
+[display]
+
+window/size/viewport_width=1200
+window/size/viewport_height=600
+window/size/resizable=false

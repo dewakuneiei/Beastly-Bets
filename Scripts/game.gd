@@ -6,10 +6,12 @@ class_name Game
 @export var gameover_ui : GameOverUI
 @export var character: Character
 const com_bet_optional : = {
-	"min" : 25,
-	"mid" : 35,
+	"min" : 10,
+	"mid" : 20,
 	"max" : 50
 }
+
+@onready var soundEffect : AudioStreamPlayer2D = %soundEffect
 
 var rng = RandomNumberGenerator.new()
 var outcome:int
@@ -31,6 +33,7 @@ func _ready():
 	
 	ui.showStart(true)
 	gameover_ui.setVisible(false)
+	ui.show_money_bet(false)
 	gameReset()
 	
 
@@ -53,7 +56,8 @@ func get_player_input(guess_number: int, bet_amount: int):
 	ui.set_monster_bet_text(character.m_bet)
 	ui.set_player_bet_text(character.p_bet)
 	ui.showInputScene(false)
-	ui.show_bet_label(true)
+	ui.show_money_bet(true)
+	ui.playMoneySlideAnim()
 	
 	character.player_money -= bet_amount
 	
@@ -82,8 +86,11 @@ func com_guessed():
 		character.m_guess = rng.randi_range(1, 6)
 	
 func rolledDice():
+	soundEffect.play()
+	
 	outcome = rng.randi_range(1, 6)
 	allResult.append(findWinner())
+	ui.set_image(outcome)
 	ui.showOutcome(outcome) # show and wait for seconds
 	print("outcome: ", outcome)
 
@@ -187,7 +194,7 @@ func gameReset():
 	ui.set_player_bet_text(0)
 	character.m_bet = 0
 	character.p_bet = 0
-	ui.show_bet_label(false)
+	ui.show_money_bet(false)
 
 func sum(a: int, b:int):
 	return a + b

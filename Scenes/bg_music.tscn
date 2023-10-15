@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://tx2su2iwhcr8"]
+
+[ext_resource type="AudioStream" uid="uid://7s80cnxglyr0" path="res://Assets/Sounds/Sad_Hop_Bot__night_Oct_15_2023_700_PM.wav" id="1_tf8g4"]
+
+[node name="Music" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_tf8g4")
+volume_db = -10.0
+autoplay = true

@@ -30,7 +30,7 @@ func setAllResult( arr: Array) -> void:
 			object["dist"] == 0 and 
 			object["winner"] == 'm'):
 				text += "MONSTER CORRECTLY!"
-				pwin += 1
+				mwin += 1
 		elif(
 			object["dist"] != 0 and 
 			object["winner"] == 'p'):

@@ -46,9 +46,6 @@ func _reset_defualt():
 
 
 
-
-
-
 func _on_left_pressed():
 	if(_number_input - 1 < 1 ):
 		return
