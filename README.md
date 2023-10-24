@@ -7,4 +7,4 @@ Game engine: Godot 4
 **About the game**
 Guess the dice outcome and place a bet.
 
-**Itchy.io:** https://dewakuneiei.itch.io/beastly-bets
+**itch.io:** https://dewakuneiei.itch.io/beastly-bets
