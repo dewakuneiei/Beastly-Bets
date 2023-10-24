@@ -6,9 +6,9 @@ class_name Game
 @export var gameover_ui : GameOverUI
 @export var character: Character
 const com_bet_optional : = {
-	"min" : 10,
-	"mid" : 20,
-	"max" : 50
+	"min" : 20,
+	"mid" : 50,
+	"max" : 70
 }
 
 @onready var soundEffect : AudioStreamPlayer2D = %soundEffect
@@ -18,10 +18,18 @@ var outcome:int
 
 var allResult: Array
 
-var rate :float = .5
+var texture1 : Texture2D
+var texture2 : Texture2D
+var texture3 : Texture2D
+var texture4 : Texture2D
+var texture5 : Texture2D
+var texture6 : Texture2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	_setupImage()
+	
 	if( !ui ):
 		printerr("UI is missing!")
 
@@ -37,6 +45,13 @@ func _ready():
 	gameReset()
 	
 
+func _setupImage() :
+	texture1 = preload("res://Assets/dices/dice_1.png")
+	texture2 = preload("res://Assets/dices/dice_2.png")
+	texture3 = preload("res://Assets/dices/dice_3.png")
+	texture4 = preload("res://Assets/dices/dice_4.png")
+	texture5 = preload("res://Assets/dices/dice_5.png")
+	texture6 = preload("res://Assets/dices/dice_6.png")
 
 func _on_ui_start_the_game():
 	ui.showInputScene(true)
@@ -63,12 +78,7 @@ func get_player_input(guess_number: int, bet_amount: int):
 	
 	com_guessed()
 	
-	var allGuesses = "{c}:{p}".format(
-		{"c":str(character.m_guess),"p":str(character.p_guess)})
-	var allBets = "p bet: {p}, m bet: {m}".format(
-		{"p": character.p_bet, "m": character.m_bet})
-	
-	ui.set_number(allGuesses)
+	ui.set_number(character.m_guess, character.p_guess)
 	rolledDice()
 
 

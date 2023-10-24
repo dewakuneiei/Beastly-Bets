@@ -3,7 +3,10 @@ extends CanvasLayer
 class_name UI
 @onready var m_money := %m_money
 @onready var p_money := %p_money
-@onready var g_number := %g_number
+
+@onready var mon_g_t := %mon_g_t
+@onready var player_g_t := %player_g_t
+
 @onready var start_btn := %start_btn
 @onready var outcome_l := %outcome_l
 @onready var timerOutcome := $ShowOutcome
@@ -14,7 +17,6 @@ class_name UI
 
 @onready var player_input : PlayerInput = %InputNode
 
-
 @export var game : Game
 @export var character: Character
 
@@ -23,13 +25,6 @@ class_name UI
 
 # used for count the outcome round timeout
 var index_time
-
-var texture1 : Texture2D
-var texture2 : Texture2D
-var texture3 : Texture2D
-var texture4 : Texture2D
-var texture5 : Texture2D
-var texture6 : Texture2D
 
 signal startTheGame
 signal outcomeTimeout
@@ -49,30 +44,24 @@ func _ready():
 	outcome_l.visible = false
 	_outcome_t.visible = false
 	showInputScene(false)
-	
-	_setupImage()
+
 	
 	# do not change this value
 	index_time = 0
+	
 
-func _setupImage() :
-	texture1 = preload("res://Assets/dices/dice_1.png")
-	texture2 = preload("res://Assets/dices/dice_2.png")
-	texture3 = preload("res://Assets/dices/dice_3.png")
-	texture4 = preload("res://Assets/dices/dice_4.png")
-	texture5 = preload("res://Assets/dices/dice_5.png")
-	texture6 = preload("res://Assets/dices/dice_6.png")
-	
-	
+func showHeadCenter(isVisible: bool):
+	mon_g_t.get_parent().visible = isVisible
+
 func showStart(isVisible: bool) -> void:
 	start_btn.visible = isVisible
-	g_number.visible = !start_btn.visible
+	showHeadCenter(!start_btn.visible)
 
 func showInputScene(isVisible: bool) -> void:
 	if( isVisible ):
 		player_input.visible = true
 		start_btn.visible = false
-		g_number.visible = false
+		showHeadCenter(false)
 		return
 	player_input.visible = false
 	showStart(false)
@@ -80,8 +69,26 @@ func showInputScene(isVisible: bool) -> void:
 func _on_start_btn_pressed():
 	startTheGame.emit()
 
-func set_number(text: String):
-	g_number.text = text
+# fix herereeeeeeee
+func set_number(num1: int, num2: int):
+		mon_g_t.texture = GetTexture(num1)
+		player_g_t.texture = GetTexture(num2)
+		
+
+func GetTexture(value: int):
+		match value:
+			1:
+				return game.texture1
+			2:
+				return game.texture2
+			3:
+				return game.texture3
+			4:
+				return game.texture4
+			5:
+				return game.texture5
+			6:
+				return game.texture6
 
 func showOutcome(arr):
 	_outcome_t.visible = true
@@ -99,19 +106,19 @@ func _on_show_outcome_timeout():
 	elif (
 		last_result["dist"] == 0 and 
 		last_result["winner"] == 'p'):
-			outcome_l.text = "PLAYER CORRECT!"
+			outcome_l.text = "CORRECT!"
 	elif (
 		last_result["dist"] == 0 and 
 		last_result["winner"] == 'm'):
-			outcome_l.text = "MONSTER CORRECT!"
+			outcome_l.text = "Monster is correct!"
 	elif (
 		last_result["dist"] != 0 and 
 		last_result["winner"] == 'm'):
-			outcome_l.text = "MONSTER IS CLOSEST"
+			outcome_l.text = "Monster takes 50%"
 	elif (
 		last_result["dist"] != 0 and 
 		last_result["winner"] == 'p'):
-			outcome_l.text = "PLAYER IS CLOSEST"	
+			outcome_l.text = "You take 50%."	
 	
 	timerNotifly.start()
 	
@@ -135,17 +142,17 @@ func show_money_bet(isVisible: bool):
 func set_image(num: int):
 	match num:
 		1:
-			_outcome_t.texture = texture1
+			_outcome_t.texture = game.texture1
 		2:
-			_outcome_t.texture = texture2
+			_outcome_t.texture = game.texture2
 		3:
-			_outcome_t.texture = texture3
+			_outcome_t.texture = game.texture3
 		4:
-			_outcome_t.texture = texture4
+			_outcome_t.texture = game.texture4
 		5:
-			_outcome_t.texture = texture5
+			_outcome_t.texture = game.texture5
 		6:
-			_outcome_t.texture = texture6
+			_outcome_t.texture = game.texture6
 
 func playMoneySlideAnim():
 	_anim_player1.play("slide")

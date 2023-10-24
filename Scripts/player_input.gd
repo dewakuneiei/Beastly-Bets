@@ -4,7 +4,7 @@ class_name PlayerInput
 
 @onready var left_btn := %left
 @onready var right_btn := %right
-@onready var sight_l := %sight
+@onready var sight_t := %sight_t
 @onready var amount := %amount
 
 var maxBet : int = 100
@@ -16,7 +16,19 @@ var character: Character
 var _number_input: int = 1:
 	set(newValue):
 		_number_input = newValue 
-		sight_l.text = str(_number_input)
+		match _number_input:
+			1:
+				sight_t.texture = game.texture1
+			2:
+				sight_t.texture = game.texture2
+			3:
+				sight_t.texture = game.texture3
+			4:
+				sight_t.texture = game.texture4
+			5:
+				sight_t.texture = game.texture5
+			6:
+				sight_t.texture = game.texture6
 
 var _bet_amount: int = 10:
 	set(newValue):
@@ -27,22 +39,17 @@ var _bet_amount: int = 10:
 
 
 func _ready():
-	sight_l.text = str(_number_input)
 	amount.text = str(_bet_amount)
+	
 
 func _process(delta):
 	if( !character ):
 		printerr("something wrong with character")
-	maxBet = character.player_money
 
 
 func _reset_defualt():
 	_number_input = 1
 	_bet_amount = 1
-
-
-
-
 
 
 
@@ -81,7 +88,7 @@ func _on_minus_ten_pressed():
 	_bet_amount -= 10
 
 func _on_entire_pressed():
-	_bet_amount = character.player_money
+	_bet_amount = maxBet
 
 
 func _on_sure_btn_pressed():
@@ -92,3 +99,5 @@ func _on_sure_btn_pressed():
 
 
 
+func _on_min_pressed():
+	_bet_amount = minBet

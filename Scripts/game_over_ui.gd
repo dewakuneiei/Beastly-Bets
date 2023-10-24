@@ -24,22 +24,22 @@ func setAllResult( arr: Array) -> void:
 		if(
 			object["dist"] == 0 and 
 			object["winner"] == 'p'):
-				text += "PLAYER CORRECTLY!"
+				text += "You correctly!"
 				pwin +=1
 		elif(
 			object["dist"] == 0 and 
 			object["winner"] == 'm'):
-				text += "MONSTER CORRECTLY!"
+				text += "Monster correctly!"
 				mwin += 1
 		elif(
 			object["dist"] != 0 and 
 			object["winner"] == 'p'):
-				text += "PLAYER CLOSELY"
+				text += "(P)Closely"
 				cpwin += 1
 		elif(
 			object["dist"] != 0 and 
 			object["winner"] == 'm'):
-				text += "MONSTER CLOSELY"
+				text += "(M)Closely"
 				cmwin += 1
 		else:
 			text += "DRAW"

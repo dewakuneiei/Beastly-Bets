@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://co3xtuknwdebj"]
+[gd_scene load_steps=4 format=3 uid="uid://co3xtuknwdebj"]
 
 [ext_resource type="Script" path="res://Scripts/player_input.gd" id="1_jla4q"]
+[ext_resource type="Texture2D" uid="uid://dkandjbm6faj8" path="res://Assets/dices/dice_1.png" id="2_uotak"]
+[ext_resource type="Texture2D" uid="uid://ha6xtr4r02vf" path="res://Assets/moneys/green_money.png" id="3_u3gya"]
 
 [node name="InputNode" type="MarginContainer"]
 anchors_preset = 15
@@ -16,7 +18,7 @@ script = ExtResource("1_jla4q")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
-color = Color(0, 0, 0, 0.388235)
+color = Color(0, 0, 0, 0.882353)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -27,12 +29,13 @@ theme_override_constants/separation = 18
 [node name="title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
-text = "Guess"
+text = "Take a guess"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_constants/separation = 25
 alignment = 1
 
 [node name="left" type="Button" parent="VBoxContainer/HBoxContainer"]
@@ -42,14 +45,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "<"
 
-[node name="sight" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="sight_t" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 36
-text = "5"
-horizontal_alignment = 1
+texture = ExtResource("2_uotak")
+expand_mode = 2
 
 [node name="right" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -58,13 +58,27 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = ">"
 
+[node name="money" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Money (max 100)"
+horizontal_alignment = 1
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("3_u3gya")
+expand_mode = 2
+
 [node name="amount" type="Label" parent="VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.542969, 0.996094, 0.585938, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.588235)
+theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 36
 text = "100"
 
@@ -74,40 +88,47 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 12
 
+[node name="min" type="Button" parent="VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Min"
+
 [node name="minus_one" type="Button" parent="VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "-1"
 
 [node name="minus_ten" type="Button" parent="VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "-10"
 
 [node name="plus_one" type="Button" parent="VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "+1"
 
 [node name="plus_ten" type="Button" parent="VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "+10"
 
-[node name="entire" type="Button" parent="VBoxContainer/HBoxContainer3"]
+[node name="max" type="Button" parent="VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
-text = "Entire"
+text = "Max"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -115,16 +136,17 @@ alignment = 1
 
 [node name="sure_btn" type="Button" parent="VBoxContainer/HBoxContainer4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(250, 75)
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
-text = "Sure"
+text = "ROLL"
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/left" to="." method="_on_left_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/right" to="." method="_on_right_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer3/min" to="." method="_on_min_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer3/minus_one" to="." method="_on_minus_one_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer3/minus_ten" to="." method="_on_minus_ten_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer3/plus_one" to="." method="_on_plus_one_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer3/plus_ten" to="." method="_on_plus_ten_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer3/entire" to="." method="_on_entire_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer3/max" to="." method="_on_entire_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer4/sure_btn" to="." method="_on_sure_btn_pressed"]

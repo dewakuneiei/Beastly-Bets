@@ -14,6 +14,7 @@ character = NodePath("Character")
 
 [node name="Character" type="Node2D" parent="."]
 script = ExtResource("1_mdrcg")
+start_money = 120
 
 [node name="GameUI" parent="." node_paths=PackedStringArray("game", "character") instance=ExtResource("2_hskcm")]
 game = NodePath("..")
