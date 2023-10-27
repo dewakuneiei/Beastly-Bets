@@ -7,7 +7,7 @@ class_name PlayerInput
 @onready var sight_t := %sight_t
 @onready var amount := %amount
 
-var maxBet : int = 100
+var maxBet : int = 150
 var minBet : int = 1
 
 var game: Game

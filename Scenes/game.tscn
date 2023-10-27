@@ -14,7 +14,6 @@ character = NodePath("Character")
 
 [node name="Character" type="Node2D" parent="."]
 script = ExtResource("1_mdrcg")
-start_money = 120
 
 [node name="GameUI" parent="." node_paths=PackedStringArray("game", "character") instance=ExtResource("2_hskcm")]
 game = NodePath("..")
@@ -25,7 +24,7 @@ character = NodePath("../Character")
 [node name="soundEffect" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_7o1jp")
-volume_db = -5.0
 
+[connection signal="finishedRolling" from="GameUI" to="." method="_on_game_ui_finished_rolling"]
 [connection signal="outcomeTimeout" from="GameUI" to="." method="_on_ui_outcome_timeout"]
 [connection signal="startTheGame" from="GameUI" to="." method="_on_ui_start_the_game"]

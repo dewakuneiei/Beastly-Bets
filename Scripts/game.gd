@@ -5,11 +5,6 @@ class_name Game
 @export var ui : UI
 @export var gameover_ui : GameOverUI
 @export var character: Character
-const com_bet_optional : = {
-	"min" : 20,
-	"mid" : 50,
-	"max" : 70
-}
 
 @onready var soundEffect : AudioStreamPlayer2D = %soundEffect
 
@@ -54,39 +49,33 @@ func _setupImage() :
 	texture6 = preload("res://Assets/dices/dice_6.png")
 
 func _on_ui_start_the_game():
+	# Player Input show on display
 	ui.showInputScene(true)
 
 
 
 func get_player_input(guess_number: int, bet_amount: int):
 	
+	#Player set
 	character.p_guess = guess_number
 	character.p_bet = bet_amount
+	character.player_money -= bet_amount
 	
-	character.m_bet = character.com_bet(
-		com_bet_optional,
-		character.monster_money)
+	#COM Set
+	character.m_bet = bet_amount
+	character.monster_money -= bet_amount
+	com_guessed()
 	
-	
+	# UI SET
 	ui.set_monster_bet_text(character.m_bet)
 	ui.set_player_bet_text(character.p_bet)
 	ui.showInputScene(false)
 	ui.show_money_bet(true)
 	ui.playMoneySlideAnim()
 	
-	character.player_money -= bet_amount
-	
-	com_guessed()
 	
 	ui.set_number(character.m_guess, character.p_guess)
 	rolledDice()
-
-
-
-
-
-
-
 
 
 
@@ -94,15 +83,19 @@ func com_guessed():
 	character.m_guess = rng.randi_range(1, 6)
 	while(character.m_guess == character.p_guess):
 		character.m_guess = rng.randi_range(1, 6)
-	
+
+#fix here ----------------------------------*
 func rolledDice():
 	soundEffect.play()
-	
 	outcome = rng.randi_range(1, 6)
+	print("outcome: ", outcome)
+	ui.rollDice()
+	
+
+func _on_game_ui_finished_rolling():
 	allResult.append(findWinner())
 	ui.set_image(outcome)
-	ui.showOutcome(outcome) # show and wait for seconds
-	print("outcome: ", outcome)
+	ui.outcomeStarted()
 
 func findWinner() -> Dictionary:
 	# p = player, m = monster, n = none
@@ -208,3 +201,4 @@ func gameReset():
 
 func sum(a: int, b:int):
 	return a + b
+

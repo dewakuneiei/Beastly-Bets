@@ -21,6 +21,8 @@ func setAllResult( arr: Array) -> void:
 	var rounds = 0
 	
 	for object in arr:
+		rounds += 1
+		text += str(rounds) + ". "
 		if(
 			object["dist"] == 0 and 
 			object["winner"] == 'p'):
@@ -45,7 +47,6 @@ func setAllResult( arr: Array) -> void:
 			text += "DRAW"
 			draw += 1
 		text += "\n"
-		rounds += 1
 	text = "Player correct: {pwn}\nMonster correct: {mwn}\n(P)CLOSELY: {cp}\n(M)CLOSELY: {cm}\nDRAW: {dw}\nRounds: {rds}\n\nNote\n{note}".format(
 		{"pwn": pwin, "mwn": mwin, "cp": cpwin, "cm":cmwin,"dw":draw, "rds": rounds, "note": text}
 	)

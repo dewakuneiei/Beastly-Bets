@@ -9,8 +9,11 @@ class_name UI
 
 @onready var start_btn := %start_btn
 @onready var outcome_l := %outcome_l
+
 @onready var timerOutcome := $ShowOutcome
 @onready var timerNotifly := $Notifly
+@onready var timerRolling := $DiceRolling
+
 @onready var _m_bet_l = %m_bet_l
 @onready var _p_bet_l = %p_bet_l
 @onready var _outcome_t = %outcome_t
@@ -20,14 +23,24 @@ class_name UI
 @export var game : Game
 @export var character: Character
 
-@onready var _anim_player1 : AnimationPlayer = %AnimationPlayer1
-@onready var _anim_player2 : AnimationPlayer = %AnimationPlayer2
+@onready var _anim_player : AnimationPlayer = %animPlayer
+
+@export var negativeColor: Color
+@export var positiveColor: Color
+
+
+var last_result : Dictionary
 
 # used for count the outcome round timeout
 var index_time
 
+#for rolling animated
+const indexAnimated : int = 16
+var counter : int = 1
+
 signal startTheGame
 signal outcomeTimeout
+signal finishedRolling
 
 func  _process(delta):
 	m_money.text = str(character.monster_money)
@@ -69,7 +82,6 @@ func showInputScene(isVisible: bool) -> void:
 func _on_start_btn_pressed():
 	startTheGame.emit()
 
-# fix herereeeeeeee
 func set_number(num1: int, num2: int):
 		mon_g_t.texture = GetTexture(num1)
 		player_g_t.texture = GetTexture(num2)
@@ -90,8 +102,7 @@ func GetTexture(value: int):
 			6:
 				return game.texture6
 
-func showOutcome(arr):
-	_outcome_t.visible = true
+func outcomeStarted():
 	timerOutcome.start()
 
 
@@ -99,7 +110,7 @@ func _on_show_outcome_timeout():
 	_outcome_t.visible = false
 	outcome_l.visible = true
 	
-	var last_result : Dictionary = game.allResult[game.allResult.size() - 1]
+	last_result = game.allResult[game.allResult.size() - 1]
 	
 	if(last_result["winner"] == 'n'):
 		outcome_l.text = "DRAW!"
@@ -140,6 +151,7 @@ func show_money_bet(isVisible: bool):
 	
 
 func set_image(num: int):
+	num = ((num - 1) % 6) + 1
 	match num:
 		1:
 			_outcome_t.texture = game.texture1
@@ -154,6 +166,25 @@ func set_image(num: int):
 		6:
 			_outcome_t.texture = game.texture6
 
+# fix here !!!!!!!!!!!!!!!!!
 func playMoneySlideAnim():
-	_anim_player1.play("slide")
-	_anim_player2.play("slide")
+	_anim_player.play("slide")
+	
+
+func rollDice():
+	_outcome_t.visible = true
+	timerRolling.start()
+	counter = 0
+
+# for rolling animated
+func _on_dice_rolling_timeout():
+	if(counter > indexAnimated):
+		finishedRolling.emit()
+		timerRolling.stop()
+		_anim_player.play("outcome")
+		return
+	
+	set_image(counter)
+	counter += 1
+	timerRolling.start()
+
